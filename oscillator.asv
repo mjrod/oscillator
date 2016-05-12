@@ -1,5 +1,6 @@
 
 function dy = oscillator(t,y) 
+%solver: [t,y] = dde23(@oscillator,[10, 0],history,tspan)
 %plot(t,y)
 % Model parameters 
 Ca = 1;
