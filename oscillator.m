@@ -1,5 +1,5 @@
 function dy = oscillator(t,y,Z) 
-%solver: sol = dde23(@oscillator,10,ones(3,1),[0,540]);
+%solver: sol = dde23(@oscillator,10,[1 1 1 80 40],[0,500])    
 %plot(sol.x,sol.y)
 t
 % Model parameters 
@@ -23,16 +23,22 @@ u = 1; %in the paper they use values from 1-2
 % tp = 1200; % the time used in the paper covers a wide range from 0 to >1200
 ylag1 = Z;
 % ylag2 = Z(:,2);
-dy = zeros(4,1);
+dy = zeros(5,1);
 
-
-% Ht = ylag3(1);
  
 P = (d+(a*((y(3)*ylag1(3)).^2)))/(1+(k_1*((y(3)*ylag1(3)).^2)));
 
 dy(1) = Ca*(1-((d/d0)^4))*P-(ya*y(1)/(1+f*(y(1)+y(2))));% Eq. for AiiA
 dy(2) = Ci*(1-((d/d0)^4))*P-(yi*y(2)/(1+f*(y(1)+y(2))));% Eq. for LuxI
 dy(3) = (b*y(2)/(1+(k*y(2))))-(yh*y(1)*y(3)/(1+(g*y(1))))+D*(y(4)-y(3));
-dy(4) = (-d/(1-d))*D*(y(4)-y(3))-u*y(4);
+%Input function "Lotka-Volterra-model"
+% Variables 
+aI= 0.5;
+alphaI=10;
+yI=1;
+cI= 0.2;
+
+dy(4) = aI*y(4)-alphaI*y(4)*y(5); %This diff. eq. is delivering the input function
+dy(5) = yI*y(4)*y(5)-cI*y(5);
 
 end 
